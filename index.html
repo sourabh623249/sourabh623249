@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracking History - Created by Sourabh</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&family=Poppins&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            color: #1E90FF;
+            font-size: 36px;
+        }
+
+        .created-by {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .tracking-form, .session-status, .edit-history, .all-history {
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-size: 16px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #FF6347;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        .button-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            font-size: 16px;
+            padding: 12px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        button#start { background-color: #28a745; color: white; }
+        button#pause { background-color: #ff6347; color: white; }
+        button#resume { background-color: #ffeb3b; color: black; }
+        button#stop { background-color: #1e90ff; color: white; }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        button#copyCurrent, button#copyAll, button#downloadCurrent, button#downloadAll {
+            background-color: #20B2AA;
+            color: white;
+        }
+
+        .session-status {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 6px;
+        }
+
+        .session-status h2 {
+            color: #333;
+        }
+
+        .session-status p {
+            font-size: 16px;
+        }
+
+        .session-status p span {
+            font-weight: bold;
+        }
+
+        .edit-history textarea {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            height: 150px;
+        }
+
+        .button-container > button {
+            width: 100%;
+        }
+
+        button#saveEdit {
+            background-color: #4CAF50;
+        }
+
+        button#deleteAll {
+            background-color: #f44336;
+        }
+
+        button#deleteAll:hover, button#saveEdit:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .button-container {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            button {
+                font-size: 14px;
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Tracking History</h1>
+            <p class="created-by">Created by Sourabh</p>
+        </header>
+
+        <section class="tracking-form">
+            <label for="name">Enter your name:</label>
+            <input type="text" id="name" placeholder="Your Name">
+
+            <label for="owner">Owner's Name:</label>
+            <input type="text" id="owner" value="" placeholder="Enter Owner's Name">
+
+            <div class="button-container">
+                <button id="start">Start</button>
+                <button id="pause">Pause</button>
+                <button id="resume">Resume</button>
+                <button id="stop">Stop</button>
+            </div>
+
+            <div class="button-container">
+                <button id="copyCurrent">Copy Current Session</button>
+                <button id="copyAll">Copy All History</button>
+                <button id="downloadCurrent">Download Current Session</button>
+                <button id="downloadAll">Download All History</button>
+            </div>
+        </section>
+
+        <section class="session-status">
+            <h2>Session Status</h2>
+            <p><strong>Name:</strong> <span id="sessionName">N/A</span></p>
+            <p><strong>Owner:</strong> <span id="ownerName">N/A</span></p>
+            <p><strong>Start Time:</strong> <span id="startTime">N/A</span></p>
+            <p><strong>Stop Time:</strong> <span id="stopTime">N/A</span></p>
+            <p><strong>Total Time:</strong> <span id="totalTime">N/A</span></p>
+            <p><strong>Pause Time:</strong> <span id="pauseTime">N/A</span></p>
+            <p><strong>Resume Time:</strong> <span id="resumeTime">N/A</span></p>
+            <p><strong>Status:</strong> <span id="status">N/A</span></p>
+        </section>
+
+        <section class="edit-history">
+            <h2>Edit Tracking History</h2>
+            <textarea id="editHistory" placeholder="Edit your tracking history here..."></textarea>
+            <div class="button-container">
+                <button id="saveEdit">Save Edited History</button>
+                <button id="deleteAll">Delete All History</button>
+            </div>
+        </section>
+
+    </div>
+
+  <script>
+    // Selecting elements
+    const startButton = document.getElementById("start");
+    const pauseButton = document.getElementById("pause");
+    const resumeButton = document.getElementById("resume");
+    const stopButton = document.getElementById("stop");
+    const copyCurrentButton = document.getElementById("copyCurrent");
+    const copyAllButton = document.getElementById("copyAll");
+    const downloadCurrentButton = document.getElementById("downloadCurrent");
+    const downloadAllButton = document.getElementById("downloadAll");
+    const saveEditButton = document.getElementById("saveEdit");
+    const deleteAllButton = document.getElementById("deleteAll");
+
+    // Session tracking variables
+    let session = {
+        name: '',
+        owner: '',
+        startTime: null,
+        stopTime: null,
+        totalTime: 0,
+        pauseTime: 0,
+        resumeTime: null,
+        status: 'N/A',
+        history: []
+    };
+
+    // Function to start the session
+    startButton.addEventListener("click", function() {
+        session.name = document.getElementById("name").value;
+        session.owner = document.getElementById("owner").value;
+        session.startTime = new Date();
+        session.status = 'Active';
+        updateSessionDetails();
+    });
+
+    // Function to pause the session
+    pauseButton.addEventListener("click", function() {
+        if (session.status === 'Active') {
+            session.pauseTime = new Date();
+            session.status = 'Paused';
+            updateSessionDetails();
+        }
+    });
+
+    // Function to resume the session
+    resumeButton.addEventListener("click", function() {
+        if (session.status === 'Paused') {
+            session.resumeTime = new Date();
+            session.status = 'Active';
+            updateSessionDetails();
+        }
+    });
+
+    // Function to stop the session
+    stopButton.addEventListener("click", function() {
+        if (session.status === 'Active' || session.status === 'Paused') {
+            session.stopTime = new Date();
+            session.totalTime = (session.stopTime - session.startTime) / 1000; // in seconds
+            session.status = 'Stopped';
+            updateSessionDetails();
+        }
+    });
+
+    // Update session details in the UI
+    function updateSessionDetails() {
+        document.getElementById("sessionName").textContent = session.name || 'N/A';
+        document.getElementById("ownerName").textContent = session.owner || 'N/A';
+        document.getElementById("startTime").textContent = formatTime(session.startTime);
+        document.getElementById("stopTime").textContent = formatTime(session.stopTime);
+        document.getElementById("totalTime").textContent = session.totalTime ? formatDuration(session.totalTime) : 'N/A';
+        document.getElementById("pauseTime").textContent = formatTime(session.pauseTime);
+        document.getElementById("resumeTime").textContent = formatTime(session.resumeTime);
+        document.getElementById("status").textContent = session.status;
+    }
+
+    // Helper function to format the time into 12-hour format with AM/PM
+    function formatTime(date) {
+        if (date) {
+            let hours = date.getHours();
+            let minutes = date.getMinutes();
+            let seconds = date.getSeconds();
+            let ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // 12-hour format
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            return `${hours}:${minutes}:${seconds} ${ampm}`;
+        }
+        return 'N/A';
+    }
+
+    // Helper function to format total time (in seconds) into hours and minutes
+    function formatDuration(seconds) {
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        return `${hours} hours ${minutes} minutes`;
+    }
+
+    // Placeholder functions for actions
+    copyCurrentButton.addEventListener("click", function() {
+        alert('Current session copied');
+    });
+
+    copyAllButton.addEventListener("click", function() {
+        alert('All history copied');
+    });
+
+    downloadCurrentButton.addEventListener("click", function() {
+        alert('Current session downloaded');
+    });
+
+    downloadAllButton.addEventListener("click", function() {
+        alert('All history downloaded');
+    });
+
+    saveEditButton.addEventListener("click", function() {
+        alert('Tracking history saved');
+    });
+
+    deleteAllButton.addEventListener("click", function() {
+        alert('All tracking history deleted');
+    });
+
+</script>
